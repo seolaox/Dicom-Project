@@ -19,25 +19,32 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late DateTime date;
+  late DateTime selectedPastDate;
+  late DateTime selectedPresentDate;
   DateTime? selectedDay = DateTime.utc(
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
   );
   DateTime focusedDay = DateTime.now();
-  late String formattedDate;
+  late String formattedPastDate;
+  late String formattedPresentDate;
   late List<String> inspectionItems;
   late String inspectionDropDownValue;
   late List<String> vertifyItems;
   late String vertifyDropDownValue;
-    late List<String> deciperItems;
+  late List<String> deciperItems;
   late String deciperDropDownValue;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    formattedDate = DateFormat('yyyy.MM').format(focusedDay);
+    date = DateTime.now();
+    selectedPastDate = DateTime(1990, 1, 1);
+    selectedPresentDate = date;
+    updateFormattedPastDate(); 
+    updateFormattedPresentDate(); 
     inspectionItems = ['선택해주세요', 'AS', 'AU', 'BI', 'CD', 'CF','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ'];
     inspectionDropDownValue = '선택해주세요';
     vertifyItems = ['선택해주세요', 'Not Requested', 'Request Completed'];
@@ -126,15 +133,17 @@ class _HomeState extends State<Home> {
                       Row(
                         children: [
                           ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              disDatePickerPast();
+                            },
                             style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(130, 35),
+                              minimumSize: const Size(100, 35),
                             ),
                             label: Text(''),
                             icon: Row(
                               children: [
                                 Text(
-                                  ' 1990.01  ',
+                                  ' $formattedPastDate ',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -151,15 +160,17 @@ class _HomeState extends State<Home> {
                                 fontSize: 17, fontWeight: FontWeight.bold),
                           ),
                           ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              disDatePickerPresent();
+                            },
                             style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(135, 35),
+                              minimumSize: const Size(100, 35),
                             ),
                             label: Text(''),
                             icon: Row(
                               children: [
                                 Text(
-                                  ' $formattedDate  ',
+                                  ' $formattedPresentDate ',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
@@ -362,8 +373,52 @@ class _HomeState extends State<Home> {
       ),
     );
     
+  } //-------------Functions------------
+
+ disDatePickerPast() async {
+    int firstYear = date.year - 50;
+    int lastYear = firstYear + 50;
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedPastDate,
+      firstDate: DateTime(firstYear),
+      lastDate: DateTime(lastYear),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      locale: const Locale('ko', 'KR'),
+    );
+    if (selectedDate != null) {
+      setState(() {
+        selectedPastDate = selectedDate;
+      });
+      updateFormattedPastDate();
+    }
   }
 
+  void updateFormattedPastDate() {
+    formattedPastDate = DateFormat('yyyy-MM').format(selectedPastDate);
+    setState(() {}); //내부 상태가 변경되었음을 프레임워크에 알리고 위젯을 다시 빌드해야 함을 알리기 위해 사용
+  }
 
+  disDatePickerPresent() async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedPresentDate,
+      firstDate: DateTime(2000, 1, 1),
+      lastDate: DateTime(2099, 12, 31),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      locale: const Locale('ko', 'KR'),
+    );
+    if (selectedDate != null) {
+      setState(() {
+        selectedPresentDate = selectedDate;
+        updateFormattedPresentDate();
+      });
+    }
+  }
 
+    void updateFormattedPresentDate() {
+    formattedPresentDate = DateFormat('yyyy-MM').format(selectedPresentDate);
+    setState(() {}); //내부 상태가 변경되었음을 프레임워크에 알리고 위젯을 다시 빌드해야 함을 알리기 위해 사용
+  }
 }
+

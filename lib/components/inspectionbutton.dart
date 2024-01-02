@@ -23,8 +23,8 @@ class _InspectionButtonState extends State<InspectionButton> {
   @override
   void initState() {
     super.initState();
-    items = ['선택해주세요','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ'];
-    dropDownValue = items[0]; // items 리스트의 첫 번째 값을 초기값으로 설정
+    items = ['선택해주세요', 'AS', 'AU', 'BI', 'CD', 'CF','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ','AS', 'AU', 'BI', 'CD', 'CF','ㅁㅁ'];
+    dropDownValue = '선택해주세요'; // items 리스트의 첫 번째 값을 초기값으로 설정
   }
 
   @override
