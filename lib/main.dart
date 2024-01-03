@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
 
    //class밑에 있으니까 얘넨 property 
   //static으로 쓰는애들은 언제든 참조가능
-  static const seedColor = Colors.deepPurple;
+  static const seedColor = Colors.black;
 
   
   @override
@@ -51,6 +51,7 @@ class _MyAppState extends State<MyApp> {
         colorSchemeSeed: seedColor,
       ),
       home: Home(onChangeTheme: _changeThemeMode),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
